@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 int main() {
-  int lato = 8;
+  int lato = 4;
 
   for (int i = 0; i < lato; i++) {
     for (int j = 0; j < lato; j++) {
@@ -10,5 +10,6 @@ int main() {
       else
         printf(" ");
     }
+    printf("\n");
   }
 }

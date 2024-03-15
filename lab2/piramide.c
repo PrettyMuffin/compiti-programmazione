@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define ALTEZZA 6
+#define ALTEZZA 9
 
 int main() {
 
