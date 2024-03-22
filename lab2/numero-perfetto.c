@@ -31,6 +31,9 @@ int isNumeroPerfetto(int numero) {
   if (numero == 1) {
     return 0;
   }
+  if (numero % 2 != 0) {
+    return 0;
+  }
   int sum = 1;
   for (int i = 2; i <= numero / 2; i++) {
     if (numero % i == 0) {

@@ -22,25 +22,30 @@ int main() {
   printf("%u corrisponde a %u in base %d\n", n, dec2base_k(n), BASE);
 }
 
+// TODO: da sistemare
 unsigned int dec2base_k(unsigned int n) {
-  int n_convertitio = 0;
-  int sum = 0;
-  for (int i = fattore_primo(n, BASE); i >= 0; i--) {
-    int nuovo_num = potenza(10, i);
-    if (sum + nuovo_num <= n) {
-      sum += nuovo_num;
+  int n_convertitio = potenza(10, fattore_primo(n, BASE));
+  for (int i = fattore_primo(n, BASE) - 1; i > 0; i--) {
+    int e = fattore_primo(n, BASE);
+    int operatore = potenza(10, i);
+    if (n % potenza(BASE, e) != 0) {
+      n_convertitio += operatore;
     }
+    n /= BASE;
   }
+
   return n_convertitio;
 }
 
 // importata dall'eserccizio del fattore primo ma modificata un po'
 int fattore_primo(int n, int f) {
   int e = 0;
+
   while (n > 1) {
     e++;
     n /= f;
   }
+
   return e;
 }
 

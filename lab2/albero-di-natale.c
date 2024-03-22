@@ -79,8 +79,8 @@ void stampa_piramide(int spazio, int altezza) {
       //   printf("#");
       if (j <= ((2 * altezza) - 2) - i && j >= i)
         printf("#");
-      else
-        printf(" ");
+      else if (j <= i)
+        printf("-");
     }
     printf("\n");
   }
