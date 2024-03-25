@@ -22,18 +22,16 @@ int main() {
   printf("%u corrisponde a %u in base %d\n", n, dec2base_k(n), BASE);
 }
 
-// TODO: da sistemare
 unsigned int dec2base_k(unsigned int n) {
   int n_convertitio = potenza(10, fattore_primo(n, BASE));
-  for (int i = fattore_primo(n, BASE) - 1; i > 0; i--) {
-    int e = fattore_primo(n, BASE);
-    int operatore = potenza(10, i);
-    if (n % potenza(BASE, e) != 0) {
+  int inizioCilco = fattore_primo(n, BASE);
+  for (int i = inizioCilco - 1; i > 0; i--) {
+    n /= 2;
+    if (n % BASE != 0) {
+      int operatore = potenza(10, i);
       n_convertitio += operatore;
     }
-    n /= BASE;
   }
-
   return n_convertitio;
 }
 
