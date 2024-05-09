@@ -41,15 +41,13 @@ int mcm(int n1, int n2, int n3);
 int main() {
   // Non serve modificare questo main, concentratevi sulla definizione delle
   // funzioni che mancano
-  int n1, n2, n3;
-  scanf("%d %d %d", &n1, &n2, &n3);
+  int n1 = 18, n2 = 4, n3 = 9;
+  // scanf("%d %d %d", &n1, &n2, &n3);
 
   int res = mcm(n1, n2, n3);
   printf("%d\n", res);
 }
 
-// svolgo l'algoritmo di euclide sui 2 più piccoli e poi controllo se è
-// divisibile per il numero più grande
 int mcm(int n1, int n2, int n3) {
   int result_mcm = 1;
   for (int i = 2; i <= max(n1, n2, n3); i++) {

@@ -23,28 +23,12 @@ int main() {
 }
 
 unsigned int dec2base_k(unsigned int n) {
-  int n_convertitio = potenza(10, fattore_primo(n, BASE));
-  int inizioCilco = fattore_primo(n, BASE);
-  for (int i = inizioCilco - 1; i > 0; i--) {
-    n /= 2;
-    if (n % BASE != 0) {
-      int operatore = potenza(10, i);
-      n_convertitio += operatore;
-    }
+  unsigned int n_covertito = 0;
+  for (int i = 0; n_covertito > 0; i++) {
+    n_covertito += (n % BASE) * potenza(10, i);
+    n /= BASE;
   }
-  return n_convertitio;
-}
-
-// importata dall'eserccizio del fattore primo ma modificata un po'
-int fattore_primo(int n, int f) {
-  int e = 0;
-
-  while (n > 1) {
-    e++;
-    n /= f;
-  }
-
-  return e;
+  return n_covertito;
 }
 
 int potenza(int base, int esponente) {
