@@ -1,23 +1,41 @@
-LIBS = ./lib
+LIBS_DIR = ./lib
 CC = gcc
-FLAGS = -g -O0 -L${LIBS} -I${LIBS} -lbasic
+FLAGS = -g -O0 -L${LIBS_DIR} -I${LIBS_DIR} -ladvanced -lbasic -lm
 
-libs: ${LIBS}/libbasic.a
+ARCHIVES = ${LIBS_DIR}/libbasic.a ${LIBS_DIR}/libadvanced.a
 
 %.o: %.c
 	${CC} -g -O0 -o $@ -c $< -Wall
 
-HEADERS = ${shell find ${LIBS}/basic/ -name '*.h'}
-SOURCES = ${shell find ${LIBS}/basic/ -name '*.c'}
-OBJS = ${SOURCES:.c=.o}
+B_HEADERS = ${shell find ${LIBS_DIR}/basic/ -name '*.h'}
+B_SOURCES = ${shell find ${LIBS_DIR}/basic/ -name '*.c'}
 
-${LIBS}/libbasic.a: ${HEADERS} ${OBJS}
-	ar rcs ${LIBS}/libbasic.a ${OBJS}
+A_HEADERS = ${shell find ${LIBS_DIR}/advanced/ -name '*.h'}
+A_SOURCES = ${shell find ${LIBS_DIR}/advanced/ -name '*.c'}
 
-all: libs main.c
-	${CC} -o execute main.c ${FLAGS}
+B_OBJS = ${B_SOURCES:.c=.o}
+A_OBJS = ${A_SOURCES:.c=.o}
+
+${LIBS_DIR}/libbasic.a: ${B_HEADERS} ${B_OBJS}
+	ar rcs ${LIBS_DIR}/libbasic.a ${B_OBJS}
+
+${LIBS_DIR}/libadvanced.a: ${A_HEADERS} ${A_OBJS}
+	ar rcs ${LIBS_DIR}/libadvanced.a ${A_OBJS}
+
+EX_LIST = ${wildcard lab*/}
+COMMANDS = ${EX_LIST:%/=%}
+EXECS = ${EX_LIST:%/=%.out}
+
+.PHONY: ${COMMANDS} all
+
+${COMMANDS}: % : %.out
+all: ${COMMANDS}
+
+.SECONDEXPANSION:
+$(EXECS): %.out : ${ARCHIVES} $$(wildcard %/*.c)
+	${CC} -o $@ $*/*.c ${FLAGS}
 
 clean:
-	find ../ -name '*.o' -delete
-	find ../ -name '*.a' -delete
-	rm execute
+	find ./ -name '*.o' -delete
+	find ./ -name '*.a' -delete
+	rm ${EXECS}
