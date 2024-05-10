@@ -22,7 +22,6 @@ void test_confronta_array();
 
 int main(void)
 {
-
     // test_confronta_array();
     consegna_moodle();
 }
