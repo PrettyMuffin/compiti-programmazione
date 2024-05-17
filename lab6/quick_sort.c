@@ -48,7 +48,7 @@ int partizione_array(int array[], int start, int pivot)
 {
     int el_pivot = array[pivot];
     int index_new_pivot = start;
-    for (int i = start + 1; i < pivot - 1; i++)
+    for (int i = start; i < pivot; i++)
     {
         if (array[i] <= el_pivot)
         {
@@ -71,7 +71,7 @@ void random_quick_sort(int a[], int start, int pivot)
 {
     if (start < pivot)
     {
-        int new_pivot = partizione_array(a, start, pivot);
+        int new_pivot = partizione_array_random(a, start, pivot);
         random_quick_sort(a, start, new_pivot - 1);
         random_quick_sort(a, new_pivot + 1, pivot);
     }
