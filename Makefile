@@ -35,7 +35,8 @@ all: ${COMMANDS}
 $(EXECS): %.out : ${ARCHIVES} $$(wildcard %/*.c)
 	${CC} -o $@ $*/*.c ${FLAGS}
 
-clean:
-	find ./ -name '*.o' -delete
+clear:
+	# find ./ -name '*.o' -delete
+	find ./ -name '*.out' -delete
 	find ./ -name '*.a' -delete
 	rm ${EXECS}
