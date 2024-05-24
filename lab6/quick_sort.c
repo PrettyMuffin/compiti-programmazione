@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 // #include "basic/array.h"
 
 void stampa_array(int *A, int dim)
@@ -62,6 +63,7 @@ int partizione_array(int array[], int start, int pivot)
 
 int partizione_array_random(int array[], int start, int pivot)
 {
+    srand(time(NULL));
     int random_index = rand() % pivot + start; // random da start a pivot
     scambia(&array[random_index], &array[pivot]);
     return partizione_array(array, start, pivot);
