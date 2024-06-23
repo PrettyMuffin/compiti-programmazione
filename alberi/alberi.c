@@ -164,6 +164,11 @@ void weirdinsert_rec(BST **ptrPtr, int val)
     }
 }
 
+//! Rimuovi nodo da albero
+
+//? *****************************************************
+//? ----- tecninca dell'inserimento del sottoalbero -----
+//? *****************************************************
 // versione scorrimento intero albero
 // void inserisci_albero(BST **albero, BST *daInserire)
 // {
@@ -175,17 +180,72 @@ void weirdinsert_rec(BST **ptrPtr, int val)
 //     }
 // }
 
-void inserisci_albero(BST **albero, BST *daInserire)
+// void inserisci_albero(BST **albero, BST *daInserire)
+// {
+//     if (*albero == NULL)
+//     {
+//         *albero = daInserire;
+//         return;
+//     }
+//     if (daInserire->valore > (*albero)->valore)
+//         inserisci_albero(&(*albero)->rightPtr, daInserire);
+//     if (daInserire->valore <= (*albero)->valore)
+//         inserisci_albero(&(*albero)->leftPtr, daInserire);
+// }
+
+// void remove_node(BST **root, int val)
+// {
+//     if (*root == NULL)
+//         return;
+//     if (val > (*root)->valore)
+//         remove_node(&((*root)->rightPtr), val);
+//     if (val < (*root)->valore)
+//         remove_node(&((*root)->leftPtr), val);
+//     if (val == (*root)->valore)
+//     {
+//         BST *appoggio_sinistra = (*root)->leftPtr; // sotto albero a partire dal figlio sinistro
+//         BST *appoggio_destra = (*root)->rightPtr;  // sotto albero a partire dal figlio destro
+//         free(*root);
+//         if (appoggio_sinistra == NULL && appoggio_destra == NULL)
+//             *root = NULL;
+//         else if (appoggio_destra == NULL)
+//             *root = appoggio_sinistra;
+//         else
+//         {
+//             if (appoggio_sinistra == NULL)
+//                 *root = appoggio_destra;
+//             else
+//             {
+//                 *root = appoggio_sinistra;
+//                 inserisci_albero(root, appoggio_destra);
+//             }
+//         }
+//         return;
+//     }
+// }
+
+//? ******************************************************************************
+//? ----- tecnica del numero maggiore del sottoalbero di sinistra (del prof) -----
+//? ******************************************************************************
+int trova_maggiore(BST **root)
 {
-    if (*albero == NULL)
+    if ((*root)->rightPtr == NULL)
     {
-        *albero = daInserire;
-        return;
+        int return_value = (*root)->valore;
+        if ((*root)->leftPtr != NULL)
+        {
+            BST *left_tree = (*root)->leftPtr;
+            free(*root);
+            *root = left_tree;
+        }
+        else
+        {
+            free(*root);
+            *root = NULL;
+        }
+        return return_value;
     }
-    if (daInserire->valore > (*albero)->valore)
-        inserisci_albero(&(*albero)->rightPtr, daInserire);
-    if (daInserire->valore <= (*albero)->valore)
-        inserisci_albero(&(*albero)->leftPtr, daInserire);
+    return trova_maggiore(&((*root)->rightPtr));
 }
 
 void remove_node(BST **root, int val)
@@ -193,27 +253,35 @@ void remove_node(BST **root, int val)
     if (*root == NULL)
         return;
     if (val > (*root)->valore)
-        remove_node(&((*root)->rightPtr), val);
+        remove_node(&(*root)->rightPtr, val);
     if (val < (*root)->valore)
-        remove_node(&((*root)->leftPtr), val);
+        remove_node(&(*root)->leftPtr, val);
     if (val == (*root)->valore)
     {
-        BST *appoggio_sinistra = (*root)->leftPtr; // sotto albero a partire dal figlio sinistro
-        BST *appoggio_destra = (*root)->rightPtr;  // sotto albero a partire dal figlio destro
-        free(*root);
-        if (appoggio_sinistra == NULL && appoggio_destra == NULL)
+        if ((*root)->leftPtr == NULL && (*root)->rightPtr == NULL)
+        {
+            free(*root);
             *root = NULL;
-        else if (appoggio_destra == NULL)
-            *root = appoggio_sinistra;
+            return;
+        }
+        else if ((*root)->leftPtr == NULL)
+        {
+            BST *appoggio = (*root)->rightPtr;
+            free(*root);
+            *root = appoggio;
+            return;
+        }
+        else if ((*root)->rightPtr == NULL)
+        {
+            BST *appoggio = (*root)->leftPtr;
+            free(*root);
+            *root = appoggio;
+            return;
+        }
         else
         {
-            if (appoggio_sinistra == NULL)
-                *root = appoggio_destra;
-            else
-            {
-                *root = appoggio_sinistra;
-                inserisci_albero(root, appoggio_destra);
-            }
+            (*root)->valore = trova_maggiore(&((*root)->leftPtr));
+            return;
         }
     }
 }
