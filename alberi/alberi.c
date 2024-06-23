@@ -264,16 +264,9 @@ void remove_node(BST **root, int val)
             *root = NULL;
             return;
         }
-        else if ((*root)->leftPtr == NULL)
+        else if ((*root)->leftPtr == NULL || (*root)->rightPtr == NULL)
         {
-            BST *appoggio = (*root)->rightPtr;
-            free(*root);
-            *root = appoggio;
-            return;
-        }
-        else if ((*root)->rightPtr == NULL)
-        {
-            BST *appoggio = (*root)->leftPtr;
+            BST *appoggio = (*root)->rightPtr == NULL ? (*root)->leftPtr : (*root)->rightPtr;
             free(*root);
             *root = appoggio;
             return;
