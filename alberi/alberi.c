@@ -27,6 +27,9 @@ int isbst(BST *ptr);
 void print_bst2D_uil(BST *root, int space);
 void print_bst2D(BST *root);
 void remove_node(BST **root, int val);
+int trova_profondita(BST *albero);
+// int trova_profondita(BST *albero, int prof);
+int isBilanciato(BST *albero);
 
 int main(void)
 {
@@ -43,7 +46,7 @@ int main(void)
     ordinsert_rec(&albero, 9);
     ordinsert_rec(&albero, 5);
     // print_bst2D(albero);
-    printf("\nL'albero è un BST? %d\n", isbst(albero));
+    // printf("\nL'albero è un BST? %d\n", isbst(albero));
 
     // creazione di un btree non BST
     // inizializza generatore random
@@ -60,7 +63,7 @@ int main(void)
     weirdinsert_rec(&albero2, 5);
     weirdinsert_rec(&albero2, 9);
     // print_bst2D(albero2);
-    printf("\nL'albero è un BST? %d\n", isbst(albero2));
+    // printf("\nL'albero è un BST? %d\n", isbst(albero2));
 
     // verifichiamo se il primo albero è un BST
     // printf("%d ", isbst(albero));
@@ -76,13 +79,33 @@ int main(void)
     ordinsert_rec(&albero_eliminazione, 170);
     ordinsert_rec(&albero_eliminazione, 50);
 
-    print_rec(albero_eliminazione);
-    printf("\n");
-    remove_node(&albero_eliminazione, 150);
-    print_rec(albero_eliminazione);
-    printf("\n");
-    printf("\nL'albero_eliminazione è un BST? %d\n", isbst(albero_eliminazione));
+    // print_rec(albero_eliminazione);
+    // printf("\n");
+    // remove_node(&albero_eliminazione, 150);
+    // print_rec(albero_eliminazione);
+    // printf("\n");
+    // printf("\nL'albero_eliminazione è un BST? %d\n", isbst(albero_eliminazione));
+    // print_bst2D(albero);
+    // printf("La profondita è: %d\n", trova_profondita(albero));
+    // printf("La profondita è: %d\n", trova_profondita(albero, 0));
 
+    // print_bst2D(albero2);
+    // printf("La profondita è: %d\n", trova_profondita(albero2));
+    // printf("La profondita è: %d\n", trova_profondita(albero2, 0));
+
+    BST *test_profondita;
+    init(&test_profondita);
+    weirdinsert_rec(&test_profondita, 2);
+    weirdinsert_rec(&test_profondita, 1);
+    weirdinsert_rec(&test_profondita, 0);
+    // weirdinsert_rec(&test_profondita, 3);
+    // weirdinsert_rec(&test_profondita, 7);
+    // weirdinsert_rec(&test_profondita, 5);
+    // weirdinsert_rec(&test_profondita, 9);
+    print_bst2D(test_profondita);
+    printf("La profondita è: %d\n", trova_profondita(test_profondita));
+
+    printf("L'albero è bilanciato: %d\n", isBilanciato(test_profondita));
     return 0;
 }
 
@@ -307,4 +330,42 @@ void print_bst2D(BST *root)
 {
     // Pass initial space count as 0
     print_bst2D_util(root, 0);
+}
+
+int max(int a, int b)
+{
+    return a > b ? a : b;
+}
+
+int trova_profondita(BST *albero)
+{
+    if (albero == NULL)
+        return -1;
+    int pSinistra = 1 + trova_profondita(albero->leftPtr);
+    int pDestra = 1 + trova_profondita(albero->rightPtr);
+    return max(pDestra, pSinistra);
+}
+
+// int trova_profondita(BST *albero, int prof)
+// {
+//     if (albero == NULL)
+//         return prof;
+//     return max(trova_profondita(albero->leftPtr, prof + 1), trova_profondita(albero->rightPtr, prof + 1));
+// }
+
+int abs(int a)
+{
+    if (a >= 0)
+        return a;
+    return -a;
+}
+
+int isBilanciato(BST *albero)
+{
+    if (albero == NULL)
+        return 1;
+    if (abs(trova_profondita(albero->leftPtr) - trova_profondita(albero->rightPtr)) > 1)
+        return 0;
+    return isBilanciato(albero->leftPtr) &&
+           isBilanciato(albero->rightPtr);
 }
