@@ -43,7 +43,6 @@ int main(void)
     ordinsert_rec(&albero, 2);
     ordinsert_rec(&albero, 6);
     ordinsert_rec(&albero, 6);
-    ordinsert_rec(&albero, 9);
     ordinsert_rec(&albero, 5);
     // print_bst2D(albero);
     // printf("\nL'albero è un BST? %d\n", isbst(albero));
@@ -102,10 +101,9 @@ int main(void)
     // weirdinsert_rec(&test_profondita, 7);
     // weirdinsert_rec(&test_profondita, 5);
     // weirdinsert_rec(&test_profondita, 9);
-    print_bst2D(test_profondita);
-    printf("La profondita è: %d\n", trova_profondita(test_profondita));
+    print_bst2D(albero);
 
-    printf("L'albero è bilanciato: %d\n", isBilanciato(test_profondita));
+    printf("L'albero è bilanciato: %d\n", isBilanciato(albero));
     return 0;
 }
 
@@ -353,6 +351,7 @@ int trova_profondita(BST *albero)
 //     return max(trova_profondita(albero->leftPtr, prof + 1), trova_profondita(albero->rightPtr, prof + 1));
 // }
 
+// valore assoluto
 int abs(int a)
 {
     if (a >= 0)
